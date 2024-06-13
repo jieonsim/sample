@@ -1,5 +1,7 @@
 package com.spring.sample.s0613;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 /*  
 비만도(BMI) 계산하는 프로그램을 만드시오.  
 공식 : 몸무게 / (키백분율 * 키백분율)  
@@ -15,6 +17,21 @@ package com.spring.sample.s0613;
 
 public class BMIRun {
 	public static void main(String[] args) {
-
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("xml/bmi.xml");
+		
+		BMIVO[] vos = {(BMIVO) ctx.getBean("bmi1"), (BMIVO) ctx.getBean("bmi2"), (BMIVO) ctx.getBean("bmi3"), (BMIVO) ctx.getBean("bmi4")};
+		
+		BMIService service = new BMIService();
+		
+		service.printLine();
+		service.printTitle();
+		service.printLine();
+		for (BMIVO bmivo : vos) {
+			BMIVO vo = service.calc(bmivo);
+			service.printBMI(vo);
+		}
+		service.printLine();
+		
+		ctx.close();
 	}
 }
